@@ -18,5 +18,5 @@ class Error(AbstractState) :
         
         uasyncio.run(self.device.light.blink())
         self.device.change_state(Sleep(self.device))
-        machine.deepsleep()
+        #machine.deepsleep()
         

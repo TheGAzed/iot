@@ -17,9 +17,16 @@ class Publish(AbstractState) :
     
     def exec(self) :
         try:
-            mqtt = self.device.config['mqtt']
+            #mqtt = self.device.config['mqtt']
+            mqtt = {
+                "client"   : DEVICE_NAME,
+                "server"   : self.device.wlan.ifconfig()[2],
+                "port"     : 1883,
+                "user"     : "maker",
+                "password" : "this.is.mqtt",
+            }
             
-            client = MQTTClient(mqtt['client_id'], mqtt['server'], mqtt['port'], mqtt['user'], mqtt['password'])
+            client = MQTTClient(mqtt['client'], mqtt['server'], mqtt['port'], mqtt['user'], mqtt['password'])
             client.connect()
         
             with open(MEASUREMENTS_FILE, 'r') as file:

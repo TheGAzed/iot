@@ -1,15 +1,5 @@
 {
     "wifi" : [
-        {
-            "ssid" : "kronos-things",
-            "key"  : "welcome.to.the.kronos",
-        },
+        "kronos", "abydoss", "caprica", "dune", "endor", "hyperion", "meridian", "romulus", "solaris", "vulkan"
     ],
-    "mqtt" : {
-        "client_id" : "zen",
-        "server"    : "192.168.137.1",
-        "port"      : 1883,
-        "user"      : "maker",
-        "password"  : "this.is.mqtt",
-    },
 }

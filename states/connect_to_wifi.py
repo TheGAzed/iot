@@ -6,6 +6,7 @@ import network, ntptime, time
 
 class ConnectToWifi(AbstractState) :
     NAME = 'Connect To Wifi'
+    DEFAULT_NETWORK = None
     
     def enter(self) :
         self.print()
@@ -22,14 +23,24 @@ class ConnectToWifi(AbstractState) :
             deadline = time.ticks_add(time.ticks_ms(), 5000)
             while time.ticks_diff(deadline, time.ticks_ms()) > 0:
                 if (self.device.wlan.isconnected()) :
-                    print('Connected')
                     return
                     
     def exec(self) :
         try:
-            for w in self.device.config['wifi']:
-                self.do_connect(w['ssid'], w['key'])
-            
+            if self.DEFAULT_NETWORK != None :
+                self.do_connect(self.DEFAULT_NETWORK + "-things", "welcome.to.the." + self.DEFAULT_NETWORK)
+                
+                if not self.device.wlan.isconnected() :
+                    self.DEFAULT_NETWORK = None
+                    for w in self.device.config['wifi']:
+                        self.do_connect(w + "-things", "welcome.to.the." + w)
+            else :
+                for w in self.device.config['wifi']:
+                    self.do_connect(w + "-things", "welcome.to.the." + w)
+                    if self.device.wlan.isconnected() :
+                        self.DEFAULT_NETWORK = w
+                        break
+                    
             if not self.device.wlan.isconnected() :
                 raise Exception("Failed to connect to wifi.")
         
