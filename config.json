@@ -1,5 +1,4 @@
 {
-    "wifi" : [
-        "kronos", "abydoss", "caprica", "dune", "endor", "hyperion", "meridian", "romulus", "solaris", "vulkan"
-    ],
+    "name" : "zen-e6614103e7698839",
+    "units" : "metric",
 }

@@ -2,6 +2,7 @@ from .state import AbstractState
 from .error import Error
 from .connect_to_wifi import ConnectToWifi
 import json, time
+from time import sleep
 
 from boot import *
 

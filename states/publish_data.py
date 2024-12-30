@@ -19,7 +19,7 @@ class Publish(AbstractState) :
         try:
             #mqtt = self.device.config['mqtt']
             mqtt = {
-                "client"   : DEVICE_NAME,
+                "client"   : self.device.config['name'],
                 "server"   : self.device.wlan.ifconfig()[2],
                 "port"     : 1883,
                 "user"     : "maker",
@@ -34,7 +34,7 @@ class Publish(AbstractState) :
                 for d in data :
                     metric = { 'dt' : d['dt'], 'name' : d['name'], 'value' : d['value'], 'units' : d['units'] }
                     measure = { 'dt' : self.device.to_iso8601(time.time()), 'metrics' : [metric]}
-                    client.publish('gw/' + d['name'] + '/' + DEVICE_NAME, json.dumps(measure))
+                    client.publish('gw/' + d['name'] + '/' + mqtt['client'], json.dumps(measure), retain=True, qos=1)
                 
                 file.close()
         
