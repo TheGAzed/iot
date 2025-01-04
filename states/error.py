@@ -1,6 +1,4 @@
 from .state import AbstractState
-from .sleep import Sleep
-from time import sleep
 import uasyncio, machine
 
 class Error(AbstractState) :
@@ -17,6 +15,5 @@ class Error(AbstractState) :
         print(self.device.exception)
         
         uasyncio.run(self.device.light.blink())
-        self.device.change_state(Sleep(self.device))
-        #machine.deepsleep()
+        machine.deepsleep()
         

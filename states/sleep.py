@@ -1,4 +1,4 @@
-import sys, network, time
+import time
 from .state import AbstractState
 
 from boot import *

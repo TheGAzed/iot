@@ -1,0 +1,17 @@
+/*
+
+!.gitignore
+
+!external/
+!lib/
+!modules/
+!states/
+
+!boot.py
+!main.py
+
+!config.json
+!measure.json
+
+!LICENCE
+!README.md

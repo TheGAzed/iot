@@ -1,5 +1,5 @@
 from .state import AbstractState
-from .measurements import Measurement
+from .connect_to_wifi import ConnectToWifi
 from .error import Error
 import time, json, network
 
@@ -33,4 +33,4 @@ class Init(AbstractState) :
                 
             self.device.config = DEFAULT_CONFIG
         
-        self.device.change_state(Measurement(self.device))
+        self.device.change_state(ConnectToWifi(self.device))

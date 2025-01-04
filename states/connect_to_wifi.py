@@ -1,7 +1,6 @@
 from .state import AbstractState
 from .error import Error
-#from .receive_data import Receive
-from .publish_data import Publish
+from .measurements import Measurement
 import network, ntptime, time
 
 class ConnectToWifi(AbstractState) :
@@ -59,9 +58,9 @@ class ConnectToWifi(AbstractState) :
                 self.connect_gateway()
                     
         
-            #ntptime.host
-            #ntptime.settime()
-            self.device.change_state(Publish(self.device))
+            ntptime.host
+            ntptime.settime()
+            self.device.change_state(Measurement(self.device))
         
         except Exception as e:
             self.device.exception = e
