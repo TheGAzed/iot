@@ -2,6 +2,7 @@ from machine import Pin, ADC
 #from time import sleep
 import math, time
 
+from boot import *
 class Sound() :
     decibels = 0
     
@@ -17,20 +18,20 @@ class Sound() :
 
     
     def measure(self) :
-        signal_max = MIN_SIGNAL
-        signal_min = MAX_SIGNAL
+        signal_max = self.MIN_SIGNAL
+        signal_min = self.MAX_SIGNAL
         
-        deadline = time.ticks_add(time.ticks_ms(), SAMPLES_MS)
+        deadline = time.ticks_add(time.ticks_ms(), self.SAMPLES_MS)
         while time.ticks_diff(deadline, time.ticks_ms()) > 0:
             sample = self.sensor.read_u16()
-            if (sample < MAX_SIGNAL) :
+            if (sample < self.MAX_SIGNAL) :
                 if (sample > signal_max) :
                     signal_max = sample
                 elif (sample < signal_min) :
                     signal_min = sample
                         
         peakToPeak = signal_max - signal_min
-        self.decibels = self.__map(peakToPeak, MIN_SIGNAL, MAX_SIGNAL, MIN_DB, MAX_DB)
+        self.decibels = self.__map(peakToPeak, self.MIN_SIGNAL, self.MAX_SIGNAL, self.MIN_DB, self.MAX_DB)
     
     def __init__(self, adc) :
         self.sensor = adc

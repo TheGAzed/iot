@@ -78,5 +78,6 @@ class Publish(AbstractState) :
                         
             self.device.change_state(Sleep(self.device))
         except Exception as e:
+            self.device.wlan.deinit()
             self.device.exception = e
             self.device.change_state(Error(self.device))

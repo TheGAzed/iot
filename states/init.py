@@ -1,7 +1,7 @@
 from .state import AbstractState
 from .connect_to_wifi import ConnectToWifi
 from .error import Error
-import time, json, network
+import json, network
 
 from boot import *
 

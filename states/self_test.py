@@ -1,5 +1,4 @@
 from .state import AbstractState
-from time import sleep
 from .init import Init
 from .error import Error
 

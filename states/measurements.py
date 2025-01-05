@@ -2,7 +2,6 @@ from .state import AbstractState
 from .error import Error
 from .publish_data import Publish
 import json, time
-from time import sleep
 
 from boot import *
 

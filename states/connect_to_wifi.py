@@ -24,8 +24,6 @@ class ConnectToWifi(AbstractState) :
                 if (self.device.wlan.isconnected()) :
                     return
                 
-        raise Exception(f'Failed to connect to {ssid}.')
-                
     def connect_gateway(self) :
         roomset = { "kronos", "abydoss", "caprica", "dune", "endor", "hyperion", "meridian", "romulus", "solaris", "vulkan" }
         for s in self.device.wlan.scan():
@@ -57,13 +55,11 @@ class ConnectToWifi(AbstractState) :
             else :
                 self.connect_gateway()
                     
-        
             ntptime.host
             ntptime.settime()
             self.device.change_state(Measurement(self.device))
-        
         except Exception as e:
+            self.device.wlan.deinit()
             self.device.exception = e
             self.device.change_state(Error(self.device))
-            
             

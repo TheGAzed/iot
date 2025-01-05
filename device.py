@@ -28,7 +28,7 @@ class Device() :
         
         self.state = SelfTest(self)
         
-    def to_iso8601(self, ts: int = None) -> str:
+    def to_iso8601(self, ts: int = 0) -> str:
         dt = gmtime(ts)
         return f'{dt[0]:04}-{dt[1]:02}-{dt[2]:02}T{dt[3]:02}:{dt[4]:02}:{dt[5]:02}Z'
         
@@ -39,11 +39,6 @@ class Device() :
             self.state.enter()
             self.state.exec()
             self.state.exit()
-    
-    def deactivate(self) :
-        #self.button.dectivate()
-        if (self.wlan != None) :
-            self.wlan.deinit()
         
     def change_state(self, state) :
         self.state = state
