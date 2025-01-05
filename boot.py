@@ -1,5 +1,3 @@
-SLEEP_PERIOD_S = 5 * 60
-
 SOUND_ADC = 0
 PHOTO_ADC = 1
 
@@ -13,11 +11,9 @@ MEASUREMENTS_FILE = 'measure.json'
 
 DEFAULT_CONFIG = {
     "name" : "zen-e6614103e7698839",
-    "units" : "metric",
+    "units" : "metric"
 }
-
 
 DEFAULT_MEASUREMENTS = {
     "data" : [],
 }
-

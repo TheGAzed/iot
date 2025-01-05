@@ -26,7 +26,7 @@ class Device() :
         
         self.exception = ''
         
-        self.state = SelfTest(self)
+        self.initial_state()
         
     def to_iso8601(self, ts: int = 0) -> str:
         dt = gmtime(ts)
@@ -43,8 +43,8 @@ class Device() :
     def change_state(self, state) :
         self.state = state
     
-    def reset_state(self):
-        self.change_state(SelfTest(self))
+    def initial_state(self) :
+        self.state = SelfTest(self)
         
     def reset(self) :        
         self.thp    = thp.Thp(I2C(0, sda=Pin(THP_SDA_PIN), scl=Pin(THP_SDL_PIN)))

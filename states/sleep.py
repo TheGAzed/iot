@@ -1,10 +1,12 @@
 import time
+import machine
 from .state import AbstractState
-
-from boot import *
+from .error import Error
 
 class Sleep(AbstractState) :
     NAME = 'Sleep'
+    SLEEP_PERIOD_S = 10 * 60 # 10 minutes
+    WDT_MS = 8388
     
     def enter(self) :
         self.print()
@@ -13,7 +15,9 @@ class Sleep(AbstractState) :
         pass
     
     def exec(self) :
-        #machine.lightsleep()
-        time.sleep(SLEEP_PERIOD_S)
-        self.device.reset_state()
-        
+        try:
+            time.sleep(self.SLEEP_PERIOD_S)
+            self.device.initial_state()
+        except Exception as e:
+            self.device.exception = e
+            self.device.change_state(Error(self.device))        

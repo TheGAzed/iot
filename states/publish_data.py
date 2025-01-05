@@ -1,7 +1,7 @@
 from .state import AbstractState
 from .sleep import Sleep
 from .error import Error
-from umqtt.simple import MQTTClient, MQTTException
+from umqtt.simple import MQTTClient
 import json, time, machine
 
 from boot import *
@@ -47,7 +47,7 @@ class Publish(AbstractState) :
         time.sleep(1)
         client.check_msg()      
     
-    def publish(self, client) :
+    def publish(self, client) :        
         with open(MEASUREMENTS_FILE, 'r') as file:
             data = json.load(file)['data']
             for d in data :
@@ -71,6 +71,7 @@ class Publish(AbstractState) :
             client.connect()
 
             self.subscribe(client)
+
             self.publish(client)
             
             client.disconnect()

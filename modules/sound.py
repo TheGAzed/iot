@@ -2,7 +2,6 @@ from machine import Pin, ADC
 #from time import sleep
 import math, time
 
-from boot import *
 class Sound() :
     decibels = 0
     
