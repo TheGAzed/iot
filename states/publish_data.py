@@ -22,10 +22,7 @@ class Publish(AbstractState) :
         print(f'Message "{message}" received in topic "{topic}"')
         cmd = json.load(message)
             
-        if cmd['type'] == "restart" :
-            print(">> Resetting device")
-            machine.reset()
-        elif cmd['type'] == "update" and cmd['version'] > VERSION:
+        if cmd['version'] > VERSION:
             print(">> Downloading update from {}".format(cmd['url']))
             response = urequests.get(cmd['url'])
 
@@ -34,10 +31,8 @@ class Publish(AbstractState) :
                 file.close()
 
             response.close()
-                
+                    
             machine.reset()
-        elif cmd['type'] == "error" :
-            raise Exception('Special MQTT subscribe set error')
 
     def create_mqtt(self) :
         return {
