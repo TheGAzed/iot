@@ -1,5 +1,4 @@
 import time
-import machine
 from .state import AbstractState
 from .error import Error
 

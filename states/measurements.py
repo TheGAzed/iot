@@ -13,8 +13,13 @@ class Measurement(AbstractState) :
         
     def exit(self) :
         pass
-    
-    def measure_thp(self, measure) :
+
+    def measure_signal(self, measure : dict) :
+        measure['data'].append({
+            "dt" : self.device.to_iso8601(time.time()), "name" : "signal", "value" : round(self.device.wlan.status('rssi'), 1), 'units' : 'decibel-milliwatts',
+        })
+
+    def measure_thp(self, measure : dict) :
         self.device.thp.measure()
             
         measure['data'].append({
@@ -58,6 +63,7 @@ class Measurement(AbstractState) :
             self.measure_thp(measure)
             self.measure_sound(measure)
             self.measure_luminosity(measure)
+            self.measure_signal(measure)
             
             with open(MEASUREMENTS_FILE, 'w') as file:
                 json.dump(measure, file)

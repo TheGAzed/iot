@@ -1,3 +1,5 @@
+VERSION = 1.0
+
 SOUND_ADC = 0
 PHOTO_ADC = 1
 

@@ -2,7 +2,6 @@ from .state import AbstractState
 from .connect_to_wifi import ConnectToWifi
 from .error import Error
 import json, network
-import machine
 
 from boot import *
 
@@ -16,11 +15,6 @@ class Init(AbstractState) :
         pass
     
     def exec(self) :
-        try:
-            self.device.wlan = network.WLAN(network.STA_IF)
-        except:
-            self.device.change_state(Error(self.device))
-            
         try:
             with open(CONFIG_FILE, 'r') as file:
                 self.device.config = json.load(file)

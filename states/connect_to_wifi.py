@@ -45,15 +45,9 @@ class ConnectToWifi(AbstractState) :
     def exec(self) :
         try:
             self.device.wlan = network.WLAN(network.STA_IF)
-        except Exception as e:
-            self.device.exception = e
-            self.device.change_state(Error(self.device))   
-
-        try:
-            self.device.wlan = network.WLAN(network.STA_IF)
             self.device.wlan.active(True)
-            
-            if self.DEFAULT_SSID != None and  self.DEFAULT_PASSWORD != None:
+
+            if self.DEFAULT_SSID != None and self.DEFAULT_PASSWORD != None:
                 self.do_connect(self.DEFAULT_SSID, self.DEFAULT_PASSWORD)
                 
                 if not self.device.wlan.isconnected() :

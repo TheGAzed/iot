@@ -2,7 +2,7 @@ from .state import AbstractState
 from .sleep import Sleep
 from .error import Error
 from umqtt.simple import MQTTClient
-import json, time, machine
+import json, time, machine, urequests
 
 from boot import *
 
@@ -19,22 +19,25 @@ class Publish(AbstractState) :
         pass
 
     def on_message(self, topic: bytes, message: bytes):
-        try:
-            print(f'Message "{message}" received in topic "{topic}"')
-            cmd = json.load(message)
+        print(f'Message "{message}" received in topic "{topic}"')
+        cmd = json.load(message)
             
-            if cmd['type'] == "restart" :
-                machine.reset()
-            elif cmd['type'] == "update" :
-                with open(cmd['file'], 'w') as file:
-                    json.dump(cmd['data'], file)
-                    file.close()
-                
-                machine.reset()
+        if cmd['type'] == "restart" :
+            print(">> Resetting device")
+            machine.reset()
+        elif cmd['type'] == "update" and cmd['version'] > VERSION:
+            print(">> Downloading update from {}".format(cmd['url']))
+            response = urequests.get(cmd['url'])
 
-        except Exception as e:
-            self.device.exception = e
-            self.device.change_state(Error(self.device))
+            with open(cmd['file'], 'wb') as file:
+                file.write(response.content)
+                file.close()
+
+            response.close()
+                
+            machine.reset()
+        elif cmd['type'] == "error" :
+            raise Exception('Special MQTT subscribe set error')
 
     def create_mqtt(self) :
         return {
@@ -43,11 +46,11 @@ class Publish(AbstractState) :
         }
     
     def subscribe(self, client) :
-        client.subscribe('gateway/things/' + client.client_id + '/set')
+        client.subscribe('gateway/thing/' + client.client_id + '/set')
         time.sleep(1)
         client.check_msg()      
     
-    def publish(self, client) :        
+    def publish(self, client) :
         with open(MEASUREMENTS_FILE, 'r') as file:
             data = json.load(file)['data']
             for d in data :
