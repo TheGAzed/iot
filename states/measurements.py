@@ -16,7 +16,7 @@ class Measurement(AbstractState) :
 
     def measure_signal(self, measure : dict) :
         measure['data'].append({
-            "dt" : self.device.to_iso8601(time.time()), "name" : "signal", "value" : round(self.device.wlan.status('rssi'), 1), 'units' : 'decibel-milliwatts',
+            "dt" : self.device.to_iso8601(time.time()), "name" : "rssi", "value" : self.device.wlan.status('rssi'), 'units' : 'decibel-milliwatts',
         })
 
     def measure_thp(self, measure : dict) :
@@ -43,7 +43,7 @@ class Measurement(AbstractState) :
         self.device.photo.measure()
         
         measure['data'].append({
-            "dt" : self.device.to_iso8601(time.time()), "name" : "luminosity", "value" : round(self.device.photo.luminosity, 1), 'units' : 'percent',
+            "dt" : self.device.to_iso8601(time.time()), "name" : "light", "value" : round(self.device.photo.luminosity, 1), 'units' : 'percent',
         })        
     
     def exec(self) :

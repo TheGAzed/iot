@@ -22,7 +22,7 @@ class Publish(AbstractState) :
         print(f'Message "{message}" received in topic "{topic}"')
         cmd = json.load(message)
             
-        if cmd['version'] > VERSION:
+        if cmd['version'] > VERSION :
             print(">> Downloading update from {}".format(cmd['url']))
             response = urequests.get(cmd['url'])
 
@@ -73,10 +73,12 @@ class Publish(AbstractState) :
             self.publish(client)
             
             client.disconnect()
+            self.device.wlan.active(False)
             self.device.wlan.deinit()
                         
             self.device.change_state(Sleep(self.device))
         except Exception as e:
+            self.device.wlan.active(False)
             self.device.wlan.deinit()
             self.device.exception = e
             self.device.change_state(Error(self.device))

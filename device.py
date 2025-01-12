@@ -1,8 +1,8 @@
-from machine import Pin, I2C, ADC, WDT
+from machine import Pin, I2C, ADC
 from states.self_test import SelfTest
 from states.state import AbstractState
-from time import gmtime
 
+import time, machine
 from modules import thp, sound, photo, button, light
 
 from boot import *
@@ -29,12 +29,12 @@ class Device() :
         self.initial_state()
         
     def to_iso8601(self, ts: int = 0) -> str:
-        dt = gmtime(ts)
+        dt = time.gmtime(ts)
         return f'{dt[0]:04}-{dt[1]:02}-{dt[2]:02}T{dt[3]:02}:{dt[4]:02}:{dt[5]:02}Z'
         
     def run(self) :
         print('>> Run device')
-        
+        machine.freq()
         while (True) :
             self.state.enter()
             self.state.exec()

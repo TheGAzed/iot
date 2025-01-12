@@ -40,25 +40,34 @@ class ConnectToWifi(AbstractState) :
                 return
         
         raise Exception('Failed to find gateway network.')
+    
+    def ntp_connect(self) :
+        try:
+            ntptime.host
+            ntptime.settime()
+        except Exception as e:
+            raise Exception('Failed to connect to NTP server.')
         
+    def wlan_connect(self) :
+        self.device.wlan = network.WLAN(network.STA_IF)
+        self.device.wlan.active(True)
+
+        if self.DEFAULT_SSID != None and self.DEFAULT_PASSWORD != None:
+            self.do_connect(self.DEFAULT_SSID, self.DEFAULT_PASSWORD)
+                
+            if not self.device.wlan.isconnected() :
+                self.connect_gateway()
+        else :
+            self.connect_gateway()
                     
     def exec(self) :
         try:
-            self.device.wlan = network.WLAN(network.STA_IF)
-            self.device.wlan.active(True)
+            self.wlan_connect()
+            self.ntp_connect()
 
-            if self.DEFAULT_SSID != None and self.DEFAULT_PASSWORD != None:
-                self.do_connect(self.DEFAULT_SSID, self.DEFAULT_PASSWORD)
-                
-                if not self.device.wlan.isconnected() :
-                    self.connect_gateway()
-            else :
-                self.connect_gateway()
-                    
-            ntptime.host
-            ntptime.settime()
             self.device.change_state(Measurement(self.device))
         except Exception as e:
+            self.device.wlan.active(False)
             self.device.wlan.deinit()
             self.device.exception = e
             self.device.change_state(Error(self.device))
