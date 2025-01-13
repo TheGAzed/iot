@@ -1,5 +1,5 @@
 from .state import AbstractState
-import uasyncio, machine
+import uasyncio
 from .sleep import Sleep
 
 class Error(AbstractState) :

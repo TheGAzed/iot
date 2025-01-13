@@ -7,6 +7,7 @@ class Sleep(AbstractState) :
     NAME = 'Sleep'
     
     def enter(self) :
+        self.device.light.led.off()
         self.print()
         
     def exit(self) :

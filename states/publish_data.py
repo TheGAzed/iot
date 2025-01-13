@@ -21,7 +21,7 @@ class Publish(AbstractState) :
     def on_message(self, topic: bytes, message: bytes):
         print(f'Message "{message}" received in topic "{topic}"')
         cmd = json.load(message)
-            
+        
         if cmd['version'] > VERSION :
             print(">> Downloading update from {}".format(cmd['url']))
             response = urequests.get(cmd['url'])
@@ -31,7 +31,7 @@ class Publish(AbstractState) :
                 file.close()
 
             response.close()
-                    
+
             machine.reset()
 
     def create_mqtt(self) :
@@ -40,18 +40,18 @@ class Publish(AbstractState) :
             "port" : 1883, "user" : "maker", "password" : "this.is.mqtt",
         }
     
-    def subscribe(self, client) :
+    def subscribe(self, client : MQTTClient) :
         client.subscribe('gateway/thing/' + client.client_id + '/set')
         time.sleep(1)
-        client.check_msg()      
+        client.check_msg()
     
-    def publish(self, client) :
+    def publish(self, client : MQTTClient) :
         with open(MEASUREMENTS_FILE, 'r') as file:
             data = json.load(file)['data']
             for d in data :
                 metric = { 'dt' : d['dt'], 'name' : d['name'], 'value' : d['value'], 'units' : d['units'] }
                 measure = { 'dt' : self.device.to_iso8601(time.time()), 'metrics' : [metric]}
-                client.publish('gateway/' + d['name'] + '/' + client.client_id, json.dumps(measure), retain=True, qos=1)
+                client.publish('gateway/' + d['name'] + '/' + client.client_id, json.dumps(measure), retain=True)
                 
             file.close()
 
