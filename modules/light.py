@@ -3,6 +3,8 @@ import uasyncio
 
 class Light() :
     BLINK_SLEEP_MS = 500
+
+    BLINK = None
     
     def __init__(self, pin=None) :
         self.led = Pin("LED", Pin.OUT) if pin is None else pin
