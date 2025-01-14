@@ -1,5 +1,6 @@
 import time, machine
 from .state import AbstractState
+from .error import Error
 
 from boot import *
 
@@ -13,9 +14,13 @@ class Sleep(AbstractState) :
         pass
     
     def exec(self) :
-        machine.freq(SLEEP_FREQUENCY)
-        time.sleep(SLEEP_PERIOD_S)
-        machine.freq(WORK_FREQUENCY)
+        try:
+            machine.freq(SLEEP_FREQUENCY)
+            time.sleep(SLEEP_PERIOD_S)
+            machine.freq(WORK_FREQUENCY)
 
-        self.device.initial_state()
+            self.device.initial_state()
+        except Exception as e:
+            self.device.exception = e
+            self.device.change_state(Error(self.device))
      
