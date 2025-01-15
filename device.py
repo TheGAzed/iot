@@ -34,7 +34,8 @@ class Device() :
         
     def run(self) :
         print('>> Run device')
-        machine.freq()
+        
+        machine.freq(WORK_FREQUENCY)
         while (True) :
             self.state.enter()
             self.state.exec()

@@ -17,7 +17,8 @@ class Error(AbstractState) :
         
         uasyncio.run(self.device.light.blink())
         machine.freq(SLEEP_FREQUENCY)
-        time.sleep(SLEEP_PERIOD_S)
+
+        time.sleep(SLEEP_ERROR_S)
 
         machine.reset()
         

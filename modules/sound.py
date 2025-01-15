@@ -9,8 +9,8 @@ class Sound() :
     MAX_SIGNAL = const(65536)
     SAMPLES_MS = const(100)
     
-    MIN_DB = const(50)
-    MAX_DB = const(110)
+    MIN_DB = const(30)
+    MAX_DB = const(120)
     
     def __map(self, x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min

@@ -35,9 +35,15 @@ class Publish(AbstractState) :
             machine.reset()
 
     def create_mqtt(self) :
+        gateway_ip = self.device.wlan.ifconfig()[2]
+        print(gateway_ip)
+
         return {
-            "client" : self.device.config['name'], "server" : self.device.wlan.ifconfig()[2],
-            "port" : 1883, "user" : "maker", "password" : "this.is.mqtt",
+            "client"   : DEVICE_NAME, 
+            "server"   : "147.232.44.94",
+            "port"     : 1883, 
+            "user"     : "maker", 
+            "password" : "this.is.mqtt",
         }
     
     def subscribe(self, client : MQTTClient) :

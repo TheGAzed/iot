@@ -16,7 +16,9 @@ class Sleep(AbstractState) :
     def exec(self) :
         try:
             machine.freq(SLEEP_FREQUENCY)
-            time.sleep(SLEEP_PERIOD_S)
+
+            time.sleep(SLEEP_SUCCESS_S)
+
             machine.freq(WORK_FREQUENCY)
 
             self.device.initial_state()
