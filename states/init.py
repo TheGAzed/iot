@@ -1,9 +1,14 @@
 from .state import AbstractState
-from .connect_to_wifi import ConnectToWifi
+from .self_test import SelfTest
 from .error import Error
-import json, network
+import json
+import machine
 
 from boot import *
+
+def wdt_callback(timer) :
+    timer.deinit()
+    machine.reset()
 
 class Init(AbstractState) :
     NAME = 'Init'
@@ -13,8 +18,15 @@ class Init(AbstractState) :
         
     def exit(self) :
         pass
+
+    def wdt(self) :
+        try:
+            self.device.wdt = machine.Timer()
+            self.device.wdt.init(mode=machine.Timer.ONE_SHOT, period=WDT_MS, callback=wdt_callback)
+        except:
+            raise Exception('Failed initialize watchdog timer.')
     
-    def exec(self) :
+    def config(self) :
         try:
             with open(CONFIG_FILE, 'r') as file:
                 self.device.config = json.load(file)
@@ -27,4 +39,11 @@ class Init(AbstractState) :
                 
             self.device.config = DEFAULT_CONFIG
         
-        self.device.change_state(ConnectToWifi(self.device))
+    def exec(self) :
+        try:
+            self.wdt()
+            self.config()
+        except:
+            self.device.change_state(Error(self.device))
+
+        self.device.change_state(SelfTest(self.device))

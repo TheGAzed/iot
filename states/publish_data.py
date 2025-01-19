@@ -36,11 +36,11 @@ class Publish(AbstractState) :
 
     def create_mqtt(self) :
         gateway_ip = self.device.wlan.ifconfig()[2]
-        print(gateway_ip)
+        #print(gateway_ip)
 
         return {
             "client"   : DEVICE_NAME, 
-            "server"   : "147.232.44.94",
+            "server"   : gateway_ip,
             "port"     : 1883, 
             "user"     : "maker", 
             "password" : "this.is.mqtt",
@@ -57,7 +57,7 @@ class Publish(AbstractState) :
             for d in data :
                 metric = { 'dt' : d['dt'], 'name' : d['name'], 'value' : d['value'], 'units' : d['units'] }
                 measure = { 'dt' : self.device.to_iso8601(time.time()), 'metrics' : [metric]}
-                client.publish('gateway/' + d['name'] + '/' + client.client_id, json.dumps(measure), retain=True)
+                client.publish('gw/' + d['name'] + '/' + client.client_id, json.dumps(measure), retain=True)
                 
             file.close()
 

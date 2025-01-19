@@ -13,6 +13,7 @@ class Error(AbstractState) :
         pass
     
     def exec(self) :
+        self.device.wdt.deinit()
         print(self.device.exception)
         
         uasyncio.run(self.device.light.blink())

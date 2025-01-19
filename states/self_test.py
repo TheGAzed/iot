@@ -1,5 +1,5 @@
 from .state import AbstractState
-from .init import Init
+from .connect_to_wifi import ConnectToWifi
 from .error import Error
 
 class SelfTest(AbstractState) :
@@ -24,7 +24,7 @@ class SelfTest(AbstractState) :
             if (self.device.thp.pressure < 30000 or self.device.thp.pressure > 110000) :
                 raise Exception(f"Invalid pressure value = {self.device.thp.pressure}.")
                 
-            self.device.change_state(Init(self.device))
+            self.device.change_state(ConnectToWifi(self.device))
         except Exception as e:
             self.device.exception = e
             self.device.change_state(Error(self.device))

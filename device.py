@@ -1,5 +1,5 @@
 from machine import Pin, I2C, ADC
-from states.self_test import SelfTest
+from states.init import Init
 from states.state import AbstractState
 
 import time, machine
@@ -8,7 +8,6 @@ from modules import thp, sound, photo, button, light
 from boot import *
 
 class Device() :
-    NAME = 'zen'
     def __init__(self) :
         print('>> Init device')
         
@@ -45,7 +44,7 @@ class Device() :
         self.state = state
     
     def initial_state(self) :
-        self.state = SelfTest(self)
+        self.state = Init(self)
         
     def reset(self) :        
         self.thp    = thp.Thp(I2C(0, sda=Pin(THP_SDA_PIN), scl=Pin(THP_SDL_PIN)))

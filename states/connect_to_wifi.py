@@ -67,8 +67,7 @@ class ConnectToWifi(AbstractState) :
 
             self.device.change_state(Measurement(self.device))
         except Exception as e:
-            self.device.wlan.active(False)
-            self.device.wlan.deinit()
+            #self.device.wlan.deinit()
             self.device.exception = e
             self.device.change_state(Error(self.device))
             
