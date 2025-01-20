@@ -31,5 +31,5 @@ DEFAULT_CONFIG = {
 }
 
 DEFAULT_MEASUREMENTS = {
-    "data" : [],
+    "data" : []
 }
