@@ -4,6 +4,7 @@
     "units"    : "metric",
     "time"     : {
         "start" : { "hour" :  0, "minute" :  0 },
-        "end"   : { "hour" : 23, "minute" : 59 }
+        "end"   : { "hour" : 23, "minute" : 59 },
+        "sleep_s" : 600
     }
 }

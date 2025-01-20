@@ -18,7 +18,7 @@ class Sleep(AbstractState) :
         try:            
             machine.freq(SLEEP_FREQUENCY)
 
-            time.sleep(SLEEP_SUCCESS_S)
+            time.sleep(self.device.config['time']['sleep_s'])
 
             machine.freq(WORK_FREQUENCY)
 

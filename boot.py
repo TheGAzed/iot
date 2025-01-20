@@ -2,11 +2,10 @@ VERSION = 1.0
 
 DEVICE_NAME = "zen-e6614103e7698839"
 
-WDT_MS = 15_000
+WDT_MS = 20_000
 WORK_FREQUENCY  = 100_000_000
 SLEEP_FREQUENCY = 18_000_000
 
-SLEEP_SUCCESS_S = 10 * 60 # 10 minutes
 SLEEP_ERROR_S   =  5 * 60 #  5 minutes
 
 SOUND_ADC = 0
@@ -26,7 +25,8 @@ DEFAULT_CONFIG = {
     "units"    : "metric",
     "time"     : {
         "start" : { "hour" :  0, "minute" :  0 },
-        "end"   : { "hour" : 23, "minute" : 59 }
+        "end"   : { "hour" : 23, "minute" : 59 },
+        "sleep_s" : 600
     }
 }
 
