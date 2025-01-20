@@ -14,9 +14,8 @@ class Sleep(AbstractState) :
         pass
     
     def exec(self) :
-        try:
-            self.device.wdt.deinit()
-            
+        self.device.wdt.deinit()
+        try:            
             machine.freq(SLEEP_FREQUENCY)
 
             time.sleep(SLEEP_SUCCESS_S)

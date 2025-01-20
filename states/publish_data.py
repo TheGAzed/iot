@@ -11,6 +11,8 @@ def on_message(topic: bytes, message: bytes):
 
 class Publish(AbstractState) :
     NAME = 'Publish Data'
+    COMMAND_UPDATE = 0
+    COMMAND_CONFIG = 1
     
     def enter(self) :
         self.print()
@@ -20,19 +22,29 @@ class Publish(AbstractState) :
 
     def on_message(self, topic: bytes, message: bytes):
         print(f'Message "{message}" received in topic "{topic}"')
-        cmd = json.load(message)
-        
-        if cmd['version'] > VERSION :
-            print(">> Downloading update from {}".format(cmd['url']))
-            response = urequests.get(cmd['url'])
+        msg = json.load(message)
 
-            with open(cmd['file'], 'wb') as file:
+        cmd  = msg['command']
+        args = msg['arguments']
+
+        if cmd == self.COMMAND_UPDATE :
+            print(">> Downloading update from {}".format(args['url']))
+            response = urequests.get(args['url'])
+
+            with open(args['file'], 'wb') as file:
                 file.write(response.content)
                 file.close()
 
             response.close()
 
             machine.reset()
+        elif cmd == self.COMMAND_CONFIG :
+            for a in args.keys() :
+                self.device.config[a] = args[a]
+            
+            with open(CONFIG_FILE, 'w') as file:
+                file.write(json.dumps(self.device.config))
+                file.close()
 
     def create_mqtt(self) :
         gateway_ip = self.device.wlan.ifconfig()[2]
@@ -47,7 +59,7 @@ class Publish(AbstractState) :
         }
     
     def subscribe(self, client : MQTTClient) :
-        client.subscribe('gateway/thing/' + client.client_id + '/set')
+        client.subscribe('gw/thing/' + client.client_id + '/set')
         time.sleep(1)
         client.check_msg()
     

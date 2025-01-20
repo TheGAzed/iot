@@ -1,12 +1,12 @@
 from machine import Pin, reset
 import time
 
-BUTTON_PRESS_S = 3
+BUTTON_PRESS_MS = 3_000
 
 def handler(pin) :
     led = Pin("LED", Pin.OUT)
     led.on()
-    deadline = time.ticks_add(time.ticks_ms(), BUTTON_PRESS_S * 1000)
+    deadline = time.ticks_add(time.ticks_ms(), BUTTON_PRESS_MS)
     while time.ticks_diff(deadline, time.ticks_ms()) > 0:
         if pin.value() == 0 :
             led.off()
