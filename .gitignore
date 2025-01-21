@@ -7,6 +7,8 @@
 !modules/
 !states/
 
+!config.json
+
 !boot.py
 !main.py
 

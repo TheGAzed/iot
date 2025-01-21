@@ -1,0 +1,8 @@
+{
+    "username" : "kronos-things",
+    "password" : "welcome.to.the.kronos",
+    "units"    : "metric",
+    "start"    : { "hour" :  0, "minute" :  0 },
+    "end"      : { "hour" : 23, "minute" : 59 },
+    "sleep"    : 600
+}
