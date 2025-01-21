@@ -5,7 +5,7 @@ DEVICE_NAME = "zen-e6614103e7698839"
 MAX_ERRORS = 5
 WDT_MS = 60_000
 WORK_FREQUENCY  = 150_000_000
-SLEEP_FREQUENCY = 18_000_000
+SLEEP_FREQUENCY = 20_000_000
 
 SLEEP_ERROR_S   =  5 * 60 #  5 minutes
 
@@ -24,11 +24,9 @@ DEFAULT_CONFIG = {
     "username" : "kronos-things",
     "password" : "welcome.to.the.kronos",
     "units"    : "metric",
-    "time"     : {
-        "start" : { "hour" :  0, "minute" :  0 },
-        "end"   : { "hour" : 23, "minute" : 59 },
-        "sleep_s" : 600
-    }
+    "start"    : { "hour" :  0, "minute" :  0 },
+    "end"      : { "hour" : 23, "minute" : 59 },
+    "sleep"    : 600
 }
 
 DEFAULT_MEASUREMENTS = {

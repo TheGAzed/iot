@@ -66,11 +66,11 @@ class ConnectToWifi(AbstractState) :
             h = lt[3]
             m = lt[4]
 
-            sh = self.device.config['time']['start']['hour']
-            sm = self.device.config['time']['start']['minute']
+            sh = self.device.config['start']['hour']
+            sm = self.device.config['start']['minute']
 
-            eh = self.device.config['time']['end']['hour']
-            em = self.device.config['time']['end']['minute']
+            eh = self.device.config['end']['hour']
+            em = self.device.config['end']['minute']
 
             if (sh <= h <= eh) and (sm <= m <= em) :
                 self.device.change_state(Measurement(self.device))

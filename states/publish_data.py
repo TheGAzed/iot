@@ -2,12 +2,9 @@ from .state import AbstractState
 from .sleep import Sleep
 from .error import Error
 from umqtt.simple import MQTTClient
-import json, time, machine, urequests
+import json, time, machine, urequests, ujson
 
 from boot import *
-
-def on_message(topic: bytes, message: bytes):
-    print(f'Message "{message}" received in topic "{topic}"')
 
 class Publish(AbstractState) :
     NAME = 'Publish Data'
@@ -22,7 +19,7 @@ class Publish(AbstractState) :
 
     def on_message(self, topic: bytes, message: bytes):
         print(f'Message "{message}" received in topic "{topic}"')
-        msg = json.load(message)
+        msg = ujson.loads(message.decode("utf-8"))
 
         cmd  = msg['command']
         args = msg['arguments']
@@ -60,10 +57,11 @@ class Publish(AbstractState) :
     
     def subscribe(self, client : MQTTClient) :
         client.subscribe('gw/thing/' + client.client_id + '/set')
-        time.sleep(1)
+        time.sleep(5)
         client.check_msg()
     
     def publish(self, client : MQTTClient) :
+        client.publish('gw/thing/' + client.client_id, json.dumps({ "ssid" : self.device.wlan.config('ssid')} ), retain=True)
         with open(MEASUREMENTS_FILE, 'r') as file:
             data = json.load(file)['data']
             for d in data :
