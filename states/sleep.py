@@ -22,6 +22,8 @@ class Sleep(AbstractState) :
 
             machine.freq(WORK_FREQUENCY)
 
+            self.device.errors = 0
+
             self.device.initial_state()
         except Exception as e:
             self.device.exception = e

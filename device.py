@@ -18,6 +18,7 @@ class Device() :
         self.light  = light.Light()
         self.wlan   = None
         self.wdt    = None
+        self.errors = 0
         
         self.button.activate()
 

@@ -1,5 +1,5 @@
 from .state import AbstractState
-import uasyncio, time, machine
+import uasyncio, time, machine, sys
 
 from boot import *
 
@@ -13,6 +13,11 @@ class Error(AbstractState) :
         pass
     
     def exec(self) :
+        self.device.errors += 1
+
+        if self.device.errors == MAX_ERRORS :
+            sys.exit("Maximum error count reached")
+        
         self.device.wdt.deinit()
         print(self.device.exception)
         
@@ -21,5 +26,7 @@ class Error(AbstractState) :
 
         time.sleep(SLEEP_ERROR_S)
 
-        machine.reset()
+        machine.freq(WORK_FREQUENCY)
+
+        self.device.initial_state()
         
