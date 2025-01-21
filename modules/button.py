@@ -1,9 +1,12 @@
-from machine import Pin, reset
+from machine import Pin, reset, freq
 import time
 
 BUTTON_PRESS_MS = 3_000
 
+from boot import *
+
 def handler(pin) :
+    freq(WORK_FREQUENCY)
     led = Pin("LED", Pin.OUT)
     led.on()
     deadline = time.ticks_add(time.ticks_ms(), BUTTON_PRESS_MS)
