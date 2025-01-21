@@ -37,7 +37,10 @@ class Publish(AbstractState) :
             machine.reset()
         elif cmd == self.COMMAND_CONFIG :
             for a in args.keys() :
-                self.device.config[a] = args[a]
+                if a in self.device.config :
+                    self.device.config[a] = args[a]
+                else :
+                    raise Exception('Invalid key in config mqtt message.')
             
             with open(CONFIG_FILE, 'w') as file:
                 file.write(json.dumps(self.device.config))
