@@ -24,9 +24,7 @@ class ConnectToWifi(AbstractState) :
             while time.ticks_diff(deadline, time.ticks_ms()) > 0:
                 if (self.device.wlan.isconnected()) :
                     return
-        
-        raise Exception('Failed to connect to network.')
-    
+            
     def connect_gateway(self) :
         roomset = { "kronos", "abydoss", "caprica", "dune", "endor", "hyperion", "meridian", "romulus", "solaris", "vulkan" }
         for s in self.device.wlan.scan():
